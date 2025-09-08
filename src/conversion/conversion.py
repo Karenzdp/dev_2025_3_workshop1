@@ -15,7 +15,7 @@ class Conversion:
             celsius_a_fahrenheit(0) -> 32.0
             celsius_a_fahrenheit(100) -> 212.0
         """
-        return((celsius* 9/5)+32)
+        return (celsius * 9/5) + 32
     
     def fahrenheit_a_celsius(self, fahrenheit):
         """
@@ -33,7 +33,7 @@ class Conversion:
             fahrenheit_a_celsius(32) -> 0.0
             fahrenheit_a_celsius(212) -> 100.0
         """
-        return((fahrenheit -32)* 5/9)
+        return (fahrenheit - 32) * 5/9
     
     def metros_a_pies(self, metros):
         """
@@ -50,7 +50,7 @@ class Conversion:
         Ejemplo:
             metros_a_pies(1) -> 3.28084
         """
-        return(metros*3.28084)
+        return metros * 3.28084
     
     def pies_a_metros(self, pies):
         """
@@ -67,7 +67,7 @@ class Conversion:
         Ejemplo:
             pies_a_metros(3.28084) -> 1.0
         """
-        return(pies*0,3048)
+        return pies * 0.3048
     
     def decimal_a_binario(self, decimal):
         """
@@ -83,11 +83,13 @@ class Conversion:
             decimal_a_binario(10) -> "1010"
             decimal_a_binario(255) -> "11111111"
         """
-        binario=""
-        while decimal>0:
-                    restante=decimal % 2
-                    binario=str() + binario
-                    decimal=decimal//2
+        if decimal == 0:
+            return "0"
+        binario = ""
+        while decimal > 0:
+            restante = decimal % 2
+            binario = str(restante) + binario
+            decimal //= 2
         return binario
                
                
@@ -106,12 +108,12 @@ class Conversion:
             binario_a_decimal("1010") -> 10
             binario_a_decimal("11111111") -> 255
         """ 
-        cont=0
-        for posicion,digito in enumerate(binario):
-            potencia=(len(binario)-1)- posicion
-            valor=int(digito)*(2**potencia)
-            cont+=valor
-        return cont##############
+        cont = 0
+        for posicion, digito in enumerate(binario):
+            potencia = (len(binario) - 1) - posicion
+            valor = int(digito) * (2 ** potencia)
+            cont += valor
+        return cont
     
     def decimal_a_romano(self, numero):
         """
@@ -129,7 +131,6 @@ class Conversion:
         """
         valores  = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]
         simbolos = ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"]
-
         resultado = ""
         for i, valor in enumerate(valores):
             while numero >= valor:
@@ -154,24 +155,18 @@ class Conversion:
         """
         simbolos = ["M", "D", "C", "L", "X", "V", "I"]
         valores  = [1000, 500, 100, 50, 10, 5, 1]
-
         acumulador = 0
         i = 0
-
         while i < len(romano):
-            
             valor_actual = valores[simbolos.index(romano[i])]
-
             if i + 1 < len(romano):
                 valor_siguiente = valores[simbolos.index(romano[i+1])]
                 if valor_actual < valor_siguiente:
                     acumulador += valor_siguiente - valor_actual
                     i += 2
                     continue
-
             acumulador += valor_actual
             i += 1
-
         return acumulador
     
     def texto_a_morse(self, texto):
@@ -188,29 +183,21 @@ class Conversion:
             texto_a_morse("SOS") -> "... --- ..."
             texto_a_morse("HELLO") -> ".... . .-.. .-.. ---"
         """
-        letras = [
-            "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T",
-            "U","V","W","X","Y","Z",
-            "0","1","2","3","4","5","6","7","8","9"
-        ]
+        letras = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ") + list("0123456789")
         morse = [
             ".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..",
             "--","-.","---",".--.","--.-",".-.","...","-",
             "..-","...-",".--","-..-","-.--","--..",
             "-----",".----","..---","...--","....-",".....","-....","--...","---..","----."
         ]
-
         texto = texto.upper()
         codigo = []
-
         for caracter in texto:
             if caracter == " ":
-                codigo.append("/")  
-            else:
-                if caracter in letras:
-                    indice = letras.index(caracter)  
-                    codigo.append(morse[indice])    
-
+                codigo.append("/")
+            elif caracter in letras:
+                indice = letras.index(caracter)
+                codigo.append(morse[indice])
         return " ".join(codigo)
     
     def morse_a_texto(self, morse):
@@ -227,23 +214,16 @@ class Conversion:
             morse_a_texto("... --- ...") -> "SOS"
             morse_a_texto(".... . .-.. .-.. ---") -> "HELLO"
         """
-        letras = [
-            "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T",
-            "U","V","W","X","Y","Z",
-            "0","1","2","3","4","5","6","7","8","9"
-        ]
+        letras = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ") + list("0123456789")
         codigo_morse = [
             ".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..",
             "--","-.","---",".--.","--.-",".-.","...","-",
             "..-","...-",".--","-..-","-.--","--..",
             "-----",".----","..---","...--","....-",".....","-....","--...","---..","----."
         ]
-        
         palabras = [p.strip() for p in morse.split('/') if p.strip() != ""]
         resultado = []
-
         for palabra in palabras:
-
             letras_morse = palabra.split()
             texto = ""
             for simbolo in letras_morse:
@@ -251,8 +231,6 @@ class Conversion:
                     indice = codigo_morse.index(simbolo)
                     texto += letras[indice]
                 else:
-                    
                     texto += "?"
             resultado.append(texto)
-
         return " ".join(resultado)
